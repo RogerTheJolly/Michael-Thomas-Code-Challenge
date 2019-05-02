@@ -1,0 +1,51 @@
+ <!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+	<head>	
+		<meta charset="utf-8">
+		
+		<link href="stylesheets/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class = 'mainBox'>
+			<div class = 'mainBox__title'>
+				<img id = 'logo' src = 'images/Logo.png'>
+				<h2>Travel Insurance</h2>
+			</div>
+			<div class = 'mainBox__content'>
+				<div class = 'mainBox__content__grid'>
+					<div class = 'item'>
+						<span> Policy Maximum </span>
+						<select class = 'item__box'>
+							<option value="" disabled selected>Choose your policy maximum</option>
+							<option value="50">$50,000</option>
+							<option value="100">$100,000</option>
+							<option value="250">$250,000</option>
+							<option value="500">$500,000</option>
+						</select>
+					</div>
+					<div class = 'item'>
+						<span>Age</span>
+						<input class = 'item__box' type = 'text' name = 'age' placeholder = 'Choose your age'>
+					</div>
+					<div class = 'item'>
+						<span class = 'item__doubleSpan'>Start Date</span>
+						<span class = 'item__doubleSpan'>End Date</span>
+						<input class = 'item__double' type = 'date' name = 'startDate'>
+						<input class = 'item__double' type = 'date' name = 'endDate'>
+					</div>
+					<div class = 'item'>
+						<span>Citizenship</span>
+						<input class = 'item__box' type = 'text' name = 'Citizenship' placeholder = 'Choose your Country of Citizenship'>
+					</div>
+					<div class = 'item'>
+						<span>Mailing State</span>
+						<input class = 'item__box' type = 'text' name = 'State' placeholder = 'Choose State'>
+					</div>
+				</div>
+				<div class = 'mainBox__GetButton'>GET QUOTES</div>
+				<div class = 'mainBox__ResetButton'>Reset Form</div>
+			</div>
+		</div>
+	</body>
+</html>
