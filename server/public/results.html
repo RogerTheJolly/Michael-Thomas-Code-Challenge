@@ -10,13 +10,24 @@
 
 	<body>
 		<div class = 'planBox'>
-			<span class = 'planBox__title'>Atlas-America</span>
-			<span class = 'planBox__price'>$100</span>
-			<p class = 'planBox__description'> Best comprehensive plan for visitors</p>
-			<span class = 'planBox__type'>Comprehensive</span>
-			<span class = 'planBox__section'>Travel Medical</span>
+			<h2 class = 'planBox__title'>Atlas-America</h2>
+			<div class = 'planBox__grid'>
+				<span>PRICE:</span><span class = 'planBox__price'>$100</span>
+				<span>DESCRIPTION:</span><p class = 'planBox__description'>Top travel plan for international travel</p>
+				<span>TYPE:</span><span class = 'planBox__type'>Comprehensive</span>
+				<span>SECTION:</span><span class = 'planBox__section'>Travel Medical</span>
+			</div>
 			<span class = 'planBox__bestSeller'>Best Seller!</span>
-		
 		</div>
 	</body>
+	<script>
+		//Quick and dirty way to adjust line-height for various description lengths
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log(document.getElementsByClassName('planBox__description')[0].innerHTML.length);
+			if(document.getElementsByClassName('planBox__description')[0].innerHTML.length > 30)
+				{
+					document.getElementsByClassName('planBox__description')[0].style.lineHeight = '27.5px';
+				}
+		}, false);
+	</script>
 </html>
