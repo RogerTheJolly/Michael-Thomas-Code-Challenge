@@ -166,6 +166,7 @@ function resultsPage()
 		}
 		
 		//Add values from the data onto the targeted planBox
+		planBox.childNodes[1].innerHTML = mockData.quotes[i].name;
 		planBox.childNodes[3].childNodes[2].innerHTML = mockData.quotes[i].price;
 		planBox.childNodes[3].childNodes[5].innerHTML = mockData.quotes[i].description;
 		planBox.childNodes[3].childNodes[8].innerHTML = mockData.quotes[i].type;
@@ -196,6 +197,62 @@ function resultsPage()
 		document.getElementsByTagName("BODY")[0].appendChild(planBox);
 	}
 }
+
+function postAPI(values)
+{
+	console.log("posting");
+	var response = $.ajax({
+      type: 'POST',
+      url: "http://localhost:8080/views/api.html",
+      data: values,
+      dataType: "JSON",
+      success: function(resultData) { alert("Save Complete") }
+});
+//saveData.error(function() { alert("Something went wrong"); });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

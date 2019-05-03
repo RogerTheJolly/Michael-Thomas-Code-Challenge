@@ -10,6 +10,7 @@ body{
 	box-sizing: border-box;
 	//margin-left: 25px;
 	margin: 25px auto 0 auto;
+	cursor: pointer;
 }
 
 .planBox__title{
