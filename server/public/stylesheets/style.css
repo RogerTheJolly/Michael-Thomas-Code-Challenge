@@ -22,6 +22,7 @@ a {
   padding: 10px;
 }
 
+
 .mainBox {
 	width: 60%;
 	height: auto;
@@ -57,7 +58,7 @@ a {
 
 .mainBox__content__grid{
 	display: grid;
-	grid-template-columns: 1fr 1fr
+	grid-template-columns: 1fr 1fr;
 }
 
 .item{
@@ -117,4 +118,76 @@ a {
 	font-style: italic;
 	cursor: pointer;
 }
+
+
+@media(max-width:550px) {
+/* start of phone styles */
+	.mainBox__content__grid{
+		grid-template-columns: 1fr;
+	}
+}
+@media(max-width:950px) {
+/* start of phone styles */
+	.mainBox{
+		width: 80%;
+	}
+}
+@media(max-width:750px) {
+/* start of phone styles */
+	.mainBox{
+		width: 100%;
+	}
+}
+
+
+
+.planBox{
+	width: 300px;
+	height: 300px;
+	border: 1px solid #dadada;
+}
+
+.planBox__title{
+	width: 300px;
+	height: 25px;
+	line-height: 25px;
+	background-color: #f0f3f6;
+	text-align: center;
+	display: inline-block;
+	font-weight: bold;
+	color: #1f4a9d;
+	margin: 0 !important;
+}
+
+.planBox span, .planBox p{
+	display: block;
+	margin: 10px 0 10px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
