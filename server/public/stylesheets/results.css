@@ -1,16 +1,27 @@
-body{
+.planGrid{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.resultsTitle{
+	height: 75px;
+	width: 100%;
+	background-color: #f0f3f6;
+}
 .planBox{
 	width: 300px;
 	height: 300px;
 	border: 1px solid #dadada;
 	box-sizing: border-box;
-	//margin-left: 25px;
 	margin: 25px auto 0 auto;
 	cursor: pointer;
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 .planBox__title{

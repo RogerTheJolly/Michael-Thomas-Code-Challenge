@@ -10,15 +10,20 @@
 	</head>
 
 	<body>
-		<div class = 'planBox'>
-			<h2 class = 'planBox__title'></h2>
-			<div class = 'planBox__grid'>
-				<span>PRICE:</span><span class = 'planBox__price'>price</span>
-				<span>DESCRIPTION:</span><p class = 'planBox__description'>desc</p>
-				<span>TYPE:</span><span class = 'planBox__type'>type</span>
-				<span>SECTION:</span><span class = 'planBox__section'>section</span>
+		<div class = 'resultsTitle'>
+		
+		</div>
+		<div class = 'planGrid'>
+			<div class = 'planBox' onclick = 'selectCompare(this)' selected = 'false'>
+				<h2 class = 'planBox__title'></h2>
+				<div class = 'planBox__grid'>
+					<span>PRICE:</span><span class = 'planBox__price'>price</span>
+					<span>DESCRIPTION:</span><p class = 'planBox__description'>desc</p>
+					<span>TYPE:</span><span class = 'planBox__type'>type</span>
+					<span>SECTION:</span><span class = 'planBox__section'>section</span>
+				</div>
+				<span class = 'planBox__bestSeller'></span>
 			</div>
-			<span class = 'planBox__bestSeller'></span>
 		</div>
 	</body>
 	

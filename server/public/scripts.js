@@ -110,46 +110,8 @@ function resultsPage()
 		  "section": "J1 Medical",
 		  "bestSellers": false
 		},
-		{
-		  "id": 12,
-		  "price": 200,
-		  "name": "Trawick Safe Travels",
-		  "description": "Top travel plan",
-		  "type": "Comprehensive",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 13,
-		  "price": 250,
-		  "name": "Trawick Safe Travels Fixed",
-		  "description": "Top travel plan fixed",
-		  "type": "Fixed",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 14,
-		  "price": 230,
-		  "name": "Trawick Safe Travels International",
-		  "description": "Top travel plan for international travel",
-		  "type": "Comprehensive",
-		  "section": "International Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 15,
-		  "price": 50,
-		  "name": "Insubuy Care plan",
-		  "description": "Top travel plan for insurance",
-		  "type": "Comprehensive",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		}
 	  ]
 	};
-
-	console.log(mockData);
 
 	//Copy the planBox element depending on how many plans we have
 	for(i = 0; i < mockData.quotes.length; i++)
@@ -167,7 +129,7 @@ function resultsPage()
 		
 		//Add values from the data onto the targeted planBox
 		planBox.childNodes[1].innerHTML = mockData.quotes[i].name;
-		planBox.childNodes[3].childNodes[2].innerHTML = mockData.quotes[i].price;
+		planBox.childNodes[3].childNodes[2].innerHTML = '$' + mockData.quotes[i].price;
 		planBox.childNodes[3].childNodes[5].innerHTML = mockData.quotes[i].description;
 		planBox.childNodes[3].childNodes[8].innerHTML = mockData.quotes[i].type;
 		planBox.childNodes[3].childNodes[11].innerHTML = mockData.quotes[i].section;
@@ -194,27 +156,51 @@ function resultsPage()
 		}
 		
 		//Add the planBox to the body element
-		document.getElementsByTagName("BODY")[0].appendChild(planBox);
+		document.getElementsByClassName("planGrid")[0].appendChild(planBox);
+	}
+}
+var selectedCount = 0;
+
+//Function to select up to 4 plans for comparison
+function selectCompare(element){
+	
+	if(element.getAttribute('selected') == 'false' && selectedCount < 4)
+	{
+		element.setAttribute('selected', 'true');
+		element.childNodes[1].style.backgroundColor = '#eb7f33';
+		selectedCount++;
+	}
+	else if (element.getAttribute('selected') == 'true')
+	{
+		element.setAttribute('selected', 'false');
+		element.childNodes[1].style.backgroundColor = '#1f4a9d';
+		selectedCount--;
 	}
 }
 
-function postAPI(values)
+function postAPI()
 {
-	console.log("posting");
+	values = {'startDate': '', 'endDate': '', 'citizenShip': '', 'policyMax': '', 'age': '', 'mailingState': ''};
+	
+	values.startDate = document.getElementById('startDate').value;
+	values.endDate = document.getElementById('endDate').value;
+	values.citizenShip = document.getElementById('citizenship').value;
+	values.policyMax = document.getElementById('maximum').selectedIndex;
+	values.age = document.getElementById('age').value;
+	values.mailingState = document.getElementById('state').value;
+	
+	console.log(values);
+	//This will post to the server and navigate to results.html if successful or request missing data if unsuccessful
 	var response = $.ajax({
       type: 'POST',
-      url: "http://localhost:8080/views/api.html",
-      data: values,
+      url: "http://localhost:8080/quotes",
+      data: JSON.stringify(values),
+	  contentType: 'application/json',
       dataType: "JSON",
-      success: function(resultData) { alert("Save Complete") }
-});
-//saveData.error(function() { alert("Something went wrong"); });
+      success: function(resultData) {window.location.href = '/results.html';},
+	  error:(function() { alert("Please fill out all data fields"); })
+	});
 }
-
-
-
-
-
 
 
 
