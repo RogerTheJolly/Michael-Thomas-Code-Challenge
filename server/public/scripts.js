@@ -7,6 +7,9 @@ function reset(){
 	document.getElementById('endDate').value = null;
 	document.getElementById('maximum').selectedIndex = 0;
 }
+
+var globalData = {};
+
 function resultsPage()
 {	
 	//This AJAX call will get the data from the server. On success, it will run the createPlans() function
@@ -18,79 +21,131 @@ function resultsPage()
 		  error:(function() { alert("Please fill out all data fields"); })
 		});
 		//console.log(resultData);
+}
+//This function loops through the data and creates plan boxes for each plan sent
+function createPlans(mockData)
+{
 	
-	//This function loops through the data and creates plan boxes for each plan sent
-	function createPlans(mockData)
+	if(mockData.quotes)
+	{	
+		mockData = mockData.quotes;
+	}
+	globalData = mockData;
+	
+	//Copy the planBox element depending on how many plans we have
+	for(i = 0; i < mockData.length; i++)
 	{
-		//Copy the planBox element depending on how many plans we have
-		for(i = 0; i < mockData.quotes.length; i++)
+		if(i == 0)
 		{
-			if(i == 0)
-			{
-				//This is the planBox that's already built in HTML to be used as a template
-				var planBox = document.getElementsByClassName('planBox')[0];
-			}
-			else
-			{
-				//Make a copy of the previous planBox
-				var planBox = planBox.cloneNode(true);
-			}
-			
-			//Add values from the data onto the targeted planBox
-			planBox.childNodes[1].innerHTML = mockData.quotes[i].name;
-			planBox.childNodes[3].childNodes[2].innerHTML = '$' + mockData.quotes[i].price;
-			planBox.childNodes[3].childNodes[5].innerHTML = mockData.quotes[i].description;
-			planBox.childNodes[3].childNodes[8].innerHTML = mockData.quotes[i].type;
-			planBox.childNodes[3].childNodes[11].innerHTML = mockData.quotes[i].section;
-			
-			//If the description is 30 characters or longer, set line-height to half of original value to keep vertical allignment correct
-			//This is because >= 30 characters will overflow onto the next line
-			if(mockData.quotes[i].description.length >= 30)
-			{
-				planBox.childNodes[3].childNodes[5].style.lineHeight = '27.5px';
-			}
-			else
-			{
-				planBox.childNodes[3].childNodes[5].style.lineHeight = '54px';
-			}
-			
-			//Similar to above. If name is too long, decrease font size
-			if(mockData.quotes[i].name.length >= 27)
-			{
-				planBox.childNodes[1].style.fontSize = '15px';
-			}
-			else
-			{
-				planBox.childNodes[1].style.fontSize = '20px';
-			}
-			
-			//Check if this plan is a best seller. This is seperate from the other values because it's a boolean value and the element is not a part of the grid element
-			if(mockData.quotes[i].bestSellers)
-			{	
-				planBox.childNodes[5].innerHTML = 'Best Seller!';
-			}
-			else
-			{
-				planBox.childNodes[5].innerHTML = '';
-			}
-			
-			//Add the planBox to the body element
-			document.getElementsByClassName("planGrid")[0].appendChild(planBox);
+			//This is the planBox that's already built in HTML to be used as a template
+			var planBox = document.getElementsByClassName('planBox')[0];
+		}
+		else
+		{
+			//Make a copy of the previous planBox
+			var planBox = planBox.cloneNode(true);
+		}
+		
+		//Add values from the data onto the targeted planBox
+		planBox.childNodes[1].innerHTML = mockData[i].name;
+		planBox.childNodes[3].childNodes[2].innerHTML = '$' + mockData[i].price;
+		planBox.childNodes[3].childNodes[5].innerHTML = mockData[i].description;
+		planBox.childNodes[3].childNodes[8].innerHTML = mockData[i].type;
+		planBox.childNodes[3].childNodes[11].innerHTML = mockData[i].section;
+		
+		//If the description is 30 characters or longer, set line-height to half of original value to keep vertical allignment correct
+		//This is because >= 30 characters will overflow onto the next line
+		if(mockData[i].description.length >= 30)
+		{
+			planBox.childNodes[3].childNodes[5].style.lineHeight = '27.5px';
+		}
+		else
+		{
+			planBox.childNodes[3].childNodes[5].style.lineHeight = '54px';
+		}
+		
+		//Similar to above. If name is too long, decrease font size
+		if(mockData[i].name.length >= 27)
+		{
+			planBox.childNodes[1].style.fontSize = '15px';
+		}
+		else
+		{
+			planBox.childNodes[1].style.fontSize = '20px';
+		}
+		
+		//Check if this plan is a best seller. This is seperate from the other values because it's a boolean value and the element is not a part of the grid element
+		if(mockData[i].bestSellers)
+		{	
+			planBox.childNodes[5].innerHTML = 'Best Seller!';
+		}
+		else
+		{
+			planBox.childNodes[5].innerHTML = '';
+		}
+		
+		//Add the planBox to the body element
+		document.getElementsByClassName("planGrid")[0].appendChild(planBox);
+	}
+}
+
+//Sorts data based on price or name
+function sortData(index)
+{
+	data = globalData;
+	var planBoxes = document.getElementsByClassName('planBox');
+	
+	//Delete all existing planBox elements (except one, to be used as a template for copying)
+	if(planBoxes.length > 1)
+	{
+		var length = planBoxes.length;
+		
+		for(i = length; i > 1; i--)
+		{
+			planBoxes[i-1].parentNode.removeChild(planBoxes[i-1]);
 		}
 	}
+
+	//Does my comparison for sorting
+	function GetSortOrder(prop) {  
+		return function(a, b) {  
+			if (a[prop] > b[prop]) {  
+				return 1;  
+			} else if (a[prop] < b[prop]) {  
+				return -1;  
+			}  
+			return 0;  
+		}  
+	}  
+	
+	//Translate selectedIndex to a property name
+	if(index == 1)
+	{
+		property = "price";
+	}
+	else
+	{
+		property = "name";
+	}
+	  
+	data.sort(GetSortOrder(property)); 
+	
+	//Run this function again to repopulate planBoxes
+	createPlans(data);
 }
 var selectedCount = 0;
 
 //Function to select up to 4 plans for comparison
 function selectCompare(element)
 {
-	
+	//Select planBoxes on click, up to 4 total
 	if(element.getAttribute('selected') == 'false' && selectedCount < 4)
 	{
 		element.setAttribute('selected', 'true');
 		element.childNodes[1].style.backgroundColor = '#eb7f33';
 		selectedCount++;
 	}
+	//Deselect planBoxes
 	else if (element.getAttribute('selected') == 'true')
 	{
 		element.setAttribute('selected', 'false');
@@ -146,7 +201,7 @@ function resetCompare(){
 	}
 	modalParent.style.display = 'none';
 }
-
+//Deselect all planBoxes
 function resetSelected(){
 	
 	var plans = document.getElementsByClassName('planBox');
@@ -163,6 +218,7 @@ function resetSelected(){
 	}
 }
 
+//Switch between grid and list view
 function toggleGrid()
 {
 	grid = document.getElementsByClassName('planGrid')[0];
@@ -208,6 +264,7 @@ function postAPI()
 	}
 }
 
+//Scroll to the top of the window every time the page is reloaded
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 }

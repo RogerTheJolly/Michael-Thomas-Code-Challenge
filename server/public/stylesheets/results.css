@@ -73,12 +73,18 @@
 	padding: 0 !important;
 	font-weight: bold;
 }
-#compare{
+.icon{
 	height: 30px;
 	width: 30px;
 	float: right;
 	margin: 25px 25px 0 0;
 	cursor: pointer;
+}
+
+.sortSelect{
+	float: right;
+	margin: 25px 25px 0 0;
+	height: 30px;
 }
 
 .compareModal{
