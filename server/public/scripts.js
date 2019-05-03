@@ -103,31 +103,37 @@ var selectedCount = 0;
 //Copy plan elements to modal, enable modal view
 function compareSelected()
 {
-	var plans = document.getElementsByClassName('planBox');
-	var compareModal = document.getElementsByClassName('compareModal__grid')[0];
-	var gridStyleString = '';
-	var modalParent = document.getElementsByClassName('compareModal__background')[0];
-	
-	//This has to be saved as a seperate variable here because inside the following loop, I am adding more planBoxes so I would end up in an infinite loop
-	var plansLength = plans.length;
-	
-	//Clone selected elements into the modal
-	for(i = 0; i < plansLength; i++)
+	if(selectedCount >= 2)
 	{
-		if(plans[i].getAttribute('selected') == 'true')
+		var plans = document.getElementsByClassName('planBox');
+		var compareModal = document.getElementsByClassName('compareModal__grid')[0];
+		var gridStyleString = '';
+		var modalParent = document.getElementsByClassName('compareModal__background')[0];
+		
+		//This has to be saved as a seperate variable here because inside the following loop, I am adding more planBoxes so I would end up in an infinite loop
+		var plansLength = plans.length;
+		
+		//Clone selected elements into the modal
+		for(i = 0; i < plansLength; i++)
 		{
-			var copy = plans[i].cloneNode(true);
-			copy.className += ' comparePlan';
-			compareModal.appendChild(copy);
-			gridStyleString += '1fr ';
-			selectedCount++;
+			if(plans[i].getAttribute('selected') == 'true')
+			{
+				var copy = plans[i].cloneNode(true);
+				copy.className += ' comparePlan';
+				compareModal.appendChild(copy);
+				gridStyleString += '1fr ';
+			}
 		}
+		//Adjust the number of grid columns based on the number of selected plans
+		compareModal.style.gridTemplateColumns = gridStyleString;
+		
+		//Show modal
+		modalParent.style.display = 'block';
 	}
-	//Adjust the number of grid columns based on the number of selected plans
-	compareModal.style.gridTemplateColumns = gridStyleString;
-	
-	//Show modal
-	modalParent.style.display = 'block';
+	else
+	{
+		alert("Please select between 2 and 4 plans to compare");
+	}
 }
 
 //Reset the comparison. Hide modal, delete modal children
@@ -157,6 +163,19 @@ function resetSelected(){
 	}
 }
 
+function toggleGrid()
+{
+	grid = document.getElementsByClassName('planGrid')[0];
+	
+	if(window.getComputedStyle(grid).display == 'grid')
+	{
+		grid.style.display = 'block';
+	}
+	else
+	{
+		grid.style.display = 'grid';
+	}
+}
 function postAPI()
 {
 	//Verify that start date comes after end date
