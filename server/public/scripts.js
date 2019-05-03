@@ -8,161 +8,82 @@ function reset(){
 	document.getElementById('maximum').selectedIndex = 0;
 }
 function resultsPage()
-{
-	var mockData = {
-	  "quotes" : [
-		{
-		  "id": 1,
-		  "price": 100,
-		  "name": "Atlas-america",
-		  "description": "Best comprehensive plan for visitors",
-		  "type": "Comprehensive",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 2,
-		  "price": 150,
-		  "name": "Atlas-international",
-		  "description": "Best comprehensive plan for international travel",
-		  "type": "Comprehensive",
-		  "section": "International Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 3,
-		  "price": 75,
-		  "name": "IMG Patriot America",
-		  "description": "Comprehensive plan for visitors",
-		  "type": "Comprehensive",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 4,
-		  "price": 250,
-		  "name": "IMG Patriot International",
-		  "description": "Comprehensive plan for international travel",
-		  "type": "Comprehensive",
-		  "section": "International Travel Medical",
-		  "bestSellers": false
-		},
-		{
-		  "id": 5,
-		  "price": 15,
-		  "name": "Visitor Care",
-		  "description": "Fixed plan for domestic travel",
-		  "type": "Fixed",
-		  "section": "Travel Medical",
-		  "bestSellers": true
-		},
-		{
-		"id": 6,
-		"price": 50,
-		"name": "Visitor Secure",
-		"description": "Fixed plan for domestic travel",
-		"type": "Fixed",
-		"section": "Travel Medical",
-		"bestSellers": false
-		},
-		{
-		  "id": 7,
-		  "price": 87,
-		  "name": "Student travel",
-		  "description": "Best student travel plan",
-		  "type": "Fixed",
-		  "section": "Student Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 8,
-		  "price": 69,
-		  "name": "Student comprehensive",
-		  "description": "Best student comprehensive plan",
-		  "type": "Comprehensive",
-		  "section": "Student Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 9,
-		  "price": 154,
-		  "name": "J1 insurance",
-		  "description": "Best J1 comprehensive plan",
-		  "type": "Comprehensive",
-		  "section": "J1 Medical",
-		  "bestSellers": false
-		},
-		{
-		  "id": 10,
-		  "price": 200,
-		  "name": "J1 insurance comprehensive",
-		  "description": "J1 comprehensive plan",
-		  "type": "Comprehensive",
-		  "section": "J1 Medical",
-		  "bestSellers": true
-		},
-		{
-		  "id": 11,
-		  "price": 20,
-		  "name": "J1 insurance fixed",
-		  "description": "J1 fixed plan",
-		  "type": "Fixed",
-		  "section": "J1 Medical",
-		  "bestSellers": false
-		},
-	  ]
-	};
-
-	//Copy the planBox element depending on how many plans we have
-	for(i = 0; i < mockData.quotes.length; i++)
+{	
+	//This AJAX call will get the data from the server. On success, it will run the createPlans() function
+	var mockData = 	$.ajax({
+		  type: 'GET',
+		  url: "http://localhost:8080/quotes",
+		  contentType: 'application/json',
+		  success: function(resultData) {createPlans(resultData)},
+		  error:(function() { alert("Please fill out all data fields"); })
+		});
+		//console.log(resultData);
+	
+	//This function loops through the data and creates plan boxes for each plan sent
+	function createPlans(mockData)
 	{
-		if(i == 0)
+		//Copy the planBox element depending on how many plans we have
+		for(i = 0; i < mockData.quotes.length; i++)
 		{
-			//This is the planBox that's already built in HTML to be used as a template
-			var planBox = document.getElementsByClassName('planBox')[0];
+			if(i == 0)
+			{
+				//This is the planBox that's already built in HTML to be used as a template
+				var planBox = document.getElementsByClassName('planBox')[0];
+			}
+			else
+			{
+				//Make a copy of the previous planBox
+				var planBox = planBox.cloneNode(true);
+			}
+			
+			//Add values from the data onto the targeted planBox
+			planBox.childNodes[1].innerHTML = mockData.quotes[i].name;
+			planBox.childNodes[3].childNodes[2].innerHTML = '$' + mockData.quotes[i].price;
+			planBox.childNodes[3].childNodes[5].innerHTML = mockData.quotes[i].description;
+			planBox.childNodes[3].childNodes[8].innerHTML = mockData.quotes[i].type;
+			planBox.childNodes[3].childNodes[11].innerHTML = mockData.quotes[i].section;
+			
+			//If the description is 30 characters or longer, set line-height to half of original value to keep vertical allignment correct
+			//This is because >= 30 characters will overflow onto the next line
+			if(mockData.quotes[i].description.length >= 30)
+			{
+				planBox.childNodes[3].childNodes[5].style.lineHeight = '27.5px';
+			}
+			else
+			{
+				planBox.childNodes[3].childNodes[5].style.lineHeight = '54px';
+			}
+			
+			//Similar to above. If name is too long, decrease font size
+			if(mockData.quotes[i].name.length >= 27)
+			{
+				planBox.childNodes[1].style.fontSize = '15px';
+			}
+			else
+			{
+				planBox.childNodes[1].style.fontSize = '20px';
+			}
+			
+			//Check if this plan is a best seller. This is seperate from the other values because it's a boolean value and the element is not a part of the grid element
+			if(mockData.quotes[i].bestSellers)
+			{	
+				planBox.childNodes[5].innerHTML = 'Best Seller!';
+			}
+			else
+			{
+				planBox.childNodes[5].innerHTML = '';
+			}
+			
+			//Add the planBox to the body element
+			document.getElementsByClassName("planGrid")[0].appendChild(planBox);
 		}
-		else
-		{
-			//Make a copy of the previous planBox
-			var planBox = planBox.cloneNode(true);
-		}
-		
-		//Add values from the data onto the targeted planBox
-		planBox.childNodes[1].innerHTML = mockData.quotes[i].name;
-		planBox.childNodes[3].childNodes[2].innerHTML = '$' + mockData.quotes[i].price;
-		planBox.childNodes[3].childNodes[5].innerHTML = mockData.quotes[i].description;
-		planBox.childNodes[3].childNodes[8].innerHTML = mockData.quotes[i].type;
-		planBox.childNodes[3].childNodes[11].innerHTML = mockData.quotes[i].section;
-		
-		//If the description is 30 characters or longer, set line-height to half of original value to keep vertical allignment correct
-		//This is because >= 30 characters will overflow onto the next line
-		if(mockData.quotes[i].description.length >= 30)
-		{
-			planBox.childNodes[3].childNodes[5].style.lineHeight = '27.5px';
-		}
-		else
-		{
-			planBox.childNodes[3].childNodes[5].style.lineHeight = '54px';
-		}
-		
-		//Check if this plan is a best seller. This is seperate from the other values because it's a boolean value and the element is not a part of the grid element
-		if(mockData.quotes[i].bestSellers)
-		{	
-			planBox.childNodes[5].innerHTML = 'Best Seller!';
-		}
-		else
-		{
-			planBox.childNodes[5].innerHTML = '';
-		}
-		
-		//Add the planBox to the body element
-		document.getElementsByClassName("planGrid")[0].appendChild(planBox);
 	}
 }
 var selectedCount = 0;
 
 //Function to select up to 4 plans for comparison
-function selectCompare(element){
+function selectCompare(element)
+{
 	
 	if(element.getAttribute('selected') == 'false' && selectedCount < 4)
 	{
@@ -177,29 +98,99 @@ function selectCompare(element){
 		selectedCount--;
 	}
 }
+//global variable to keep track of the number of selected plans
+var selectedCount = 0;
+//Copy plan elements to modal, enable modal view
+function compareSelected()
+{
+	var plans = document.getElementsByClassName('planBox');
+	var compareModal = document.getElementsByClassName('compareModal__grid')[0];
+	var gridStyleString = '';
+	var modalParent = document.getElementsByClassName('compareModal__background')[0];
+	
+	//This has to be saved as a seperate variable here because inside the following loop, I am adding more planBoxes so I would end up in an infinite loop
+	var plansLength = plans.length;
+	
+	//Clone selected elements into the modal
+	for(i = 0; i < plansLength; i++)
+	{
+		if(plans[i].getAttribute('selected') == 'true')
+		{
+			var copy = plans[i].cloneNode(true);
+			copy.className += ' comparePlan';
+			compareModal.appendChild(copy);
+			gridStyleString += '1fr ';
+			selectedCount++;
+		}
+	}
+	//Adjust the number of grid columns based on the number of selected plans
+	compareModal.style.gridTemplateColumns = gridStyleString;
+	
+	//Show modal
+	modalParent.style.display = 'block';
+}
+
+//Reset the comparison. Hide modal, delete modal children
+function resetCompare(){
+	var compareModal = document.getElementsByClassName("compareModal__grid")[0];
+	var modalParent = document.getElementsByClassName('compareModal__background')[0];
+	
+	while (compareModal.firstChild) {
+		compareModal.removeChild(compareModal.firstChild);
+	}
+	modalParent.style.display = 'none';
+}
+
+function resetSelected(){
+	
+	var plans = document.getElementsByClassName('planBox');
+	
+	for(i = 0; i < plans.length; i++)
+	{
+		if(plans[i].getAttribute('selected') == 'true')
+		{
+			plans[i].setAttribute('selected', 'false');
+			plans[i].childNodes[1].style.backgroundColor = '#1f4a9d';
+			gridStyleString = '';
+			selectedCount = 0;
+		}
+	}
+}
 
 function postAPI()
 {
-	values = {'startDate': '', 'endDate': '', 'citizenShip': '', 'policyMax': '', 'age': '', 'mailingState': ''};
+	//Verify that start date comes after end date
+	if(document.getElementById('startDate').value >= document.getElementById('endDate').value && document.getElementById('startDate').value != '' && document.getElementById('endDate').value != '')
+	{
+		alert("End Date must come after Start Date");
+	}
 	
-	values.startDate = document.getElementById('startDate').value;
-	values.endDate = document.getElementById('endDate').value;
-	values.citizenShip = document.getElementById('citizenship').value;
-	values.policyMax = document.getElementById('maximum').selectedIndex;
-	values.age = document.getElementById('age').value;
-	values.mailingState = document.getElementById('state').value;
-	
-	console.log(values);
-	//This will post to the server and navigate to results.html if successful or request missing data if unsuccessful
-	var response = $.ajax({
-      type: 'POST',
-      url: "http://localhost:8080/quotes",
-      data: JSON.stringify(values),
-	  contentType: 'application/json',
-      dataType: "JSON",
-      success: function(resultData) {window.location.href = '/results.html';},
-	  error:(function() { alert("Please fill out all data fields"); })
-	});
+	else
+	{
+		//grab the data from the input fields and add it to a JSON variable
+		values = {'startDate': '', 'endDate': '', 'citizenShip': '', 'policyMax': '', 'age': '', 'mailingState': ''};
+		values.startDate = document.getElementById('startDate').value;
+		values.endDate = document.getElementById('endDate').value;
+		values.citizenShip = document.getElementById('citizenship').value;
+		values.policyMax = document.getElementById('maximum').selectedIndex;
+		values.age = document.getElementById('age').value;
+		values.mailingState = document.getElementById('state').value;
+		
+		//This will post to the server and navigate to results.html if successful or request missing data if unsuccessful
+		var response = $.ajax({
+		  type: 'POST',
+		  url: "http://localhost:8080/quotes",
+		  data: JSON.stringify(values),
+		  contentType: 'application/json',
+		  dataType: "JSON",
+		  success: function(resultData) {window.location.href = '/results.html';},
+		  error:(function() { alert("Please fill out all data fields"); })
+		});
+	}
+}
+
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
 }
 
 

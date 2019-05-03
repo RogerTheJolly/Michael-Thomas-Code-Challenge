@@ -7,11 +7,17 @@
 		<link href="stylesheets/results.css" rel="stylesheet">
 		
 		<script src="scripts.js"></script>
+		
+		<!--Used only for AJAX-->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	</head>
 
 	<body>
 		<div class = 'resultsTitle'>
-		
+			<img id = 'logo' src = 'images/Logo.png'>
+			<h2>Travel Insurance</h2>
+			<img id = 'compare' src = 'images/compare.png' alt = "Compare" title = "Select up to four plans to compare" onClick = 'compareSelected()';>
+			<img id = 'compare' src = 'images/reset.png' alt = "Reset" title = "Reset selected plans" onClick = 'resetSelected();';>
 		</div>
 		<div class = 'planGrid'>
 			<div class = 'planBox' onclick = 'selectCompare(this)' selected = 'false'>
@@ -23,6 +29,13 @@
 					<span>SECTION:</span><span class = 'planBox__section'>section</span>
 				</div>
 				<span class = 'planBox__bestSeller'></span>
+			</div>
+		</div>
+		
+		<div class = 'compareModal__background'>
+			<div class = 'compareModal'>
+				<div class = 'compareModal__grid'></div>
+				<div class = 'mainBox__ResetButton' onClick = 'resetCompare()'>Reset Compare</div>
 			</div>
 		</div>
 	</body>
