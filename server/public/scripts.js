@@ -20,12 +20,11 @@ function resultsPage()
 		  success: function(resultData) {createPlans(resultData)},
 		  error:(function() { alert("Please fill out all data fields"); })
 		});
-		//console.log(resultData);
 }
 //This function loops through the data and creates plan boxes for each plan sent
 function createPlans(mockData)
 {
-	
+	//Pull data out from the 'quotes' parent in the JSON data
 	if(mockData.quotes)
 	{	
 		mockData = mockData.quotes;
@@ -229,7 +228,6 @@ function applyFilter()
 	}
 	
 	//The following checks are for the first planBox in the set, as that one does not get deleted by default because it's used to make copies
-	
 	//Delete any planBoxes that don't match the filter
 	if(parseInt(planBoxes[0].childNodes[3].childNodes[2].innerHTML.toString().replace('$','')) > maxPrice || (!comprehensive && planBoxes[0].childNodes[3].childNodes[8].innerHTML == "Comprehensive")
 		 || (!fixed && planBoxes[0].childNodes[3].childNodes[8].innerHTML == "Fixed") || (bestSeller == 0 && planBoxes[0].childNodes[5].innerHTML == '') || (bestSeller == 1 && planBoxes[0].childNodes[5].innerHTML != '')
@@ -261,9 +259,11 @@ function selectCompare(element)
 }
 //global variable to keep track of the number of selected plans
 var selectedCount = 0;
+
 //Copy plan elements to modal, enable modal view
 function compareSelected()
 {
+	//Require at least 2 selected planBoxes
 	if(selectedCount >= 2)
 	{
 		var plans = document.getElementsByClassName('planBox');
@@ -281,6 +281,7 @@ function compareSelected()
 			{
 				var copy = plans[i].cloneNode(true);
 				copy.className += ' comparePlan';
+				copy.onclick = '';
 				compareModal.appendChild(copy);
 				gridStyleString += '1fr ';
 			}
@@ -354,12 +355,19 @@ function toggleFilter()
 		modal.setAttribute('view', 'hidden');
 	}
 }
+
 function postAPI()
 {
 	//Verify that start date comes after end date
 	if(document.getElementById('startDate').value >= document.getElementById('endDate').value && document.getElementById('startDate').value != '' && document.getElementById('endDate').value != '')
 	{
 		alert("End Date must come after Start Date");
+	}
+	var age = document.getElementById('age').value.toString();
+	
+	if((!age.includes('/') && age > 100) || (age.includes('/') && age.split('/')[2] < 1919))
+	{
+		alert("Age cannot be greater than 100");
 	}
 	
 	else

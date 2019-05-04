@@ -35,7 +35,6 @@ a {
 	background-color: #f0f3f6;
 	width = 100%;
 	height = 79px;
-	max-height: 79px;
 }
 
 .logo{
@@ -124,21 +123,33 @@ a {
 }
 
 @media(max-width:550px) {
-/* start of phone styles */
 	.mainBox__content__grid{
 		grid-template-columns: 1fr;
 	}
 }
 @media(max-width:950px) {
-/* start of phone styles */
 	.mainBox{
 		width: 80%;
 	}
 }
-@media(max-width:750px) {
-/* start of phone styles */
+@media(max-width:721px) {
 	.mainBox{
 		width: 100%;
+	}
+	.resultsTitle{
+		height: 150px !important;
+	}
+	.planGrid{
+		margin-top: 150px !important;
+	}
+}
+@media(max-width:385px) {
+
+	.resultsTitle{
+		height: 225px !important;
+	}
+	.planGrid{
+		margin-top: 225px !important;
 	}
 }
 

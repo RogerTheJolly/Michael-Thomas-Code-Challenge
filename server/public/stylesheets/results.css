@@ -89,7 +89,7 @@
 
 .compareModal, .filterModal{
 	width: 80%;
-	height: 400px;
+	height: auto;
 	border: 1px solid #dadada;
 	margin: -200px auto 0 auto;
 	position: fixed;
@@ -99,7 +99,9 @@
 	right: 0;
 	z-index: 150;	
 }
-
+.compareModal{
+	width: 100%;
+}
 .compareModal__background, .filterModal__background{
 	width: 100vw;
 	height: 100vh;
@@ -113,7 +115,7 @@
 
 .compareModal__grid{
 	width: 100%;
-	height: 325px;
+	height: auto;
 	display: grid;
 	grid-template-columns: ;
 	margin-bottom: 25px;
@@ -160,16 +162,36 @@
 	margin: 0 auto 0 auto;
 }
 @media(max-width:1250px) {
-/* start of phone styles */
 	.planGrid{
 		grid-template-columns: 1fr 1fr 1fr;
 	}
+	.compareModal{
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 50px 0 0 0;
+	}
+	.compareModal__grid{
+		display: block;
+		position: relative;
+	}
+	.compareModal__background{
+		position: absolute;
+	}
+	.filterModal{
+		width: 60%;
+	}
+	
 }
 
 @media(max-width:950px) {
-/* start of phone styles */
 	.planGrid{
 		grid-template-columns: 1fr 1fr;
+	}
+}
+@media(max-width:800px) {
+	.filterModal{
+		width: 80%;
 	}
 }
 
@@ -178,4 +200,11 @@
 	.planGrid{
 		grid-template-columns: 1fr;
 	}
+	.filterModal{
+		width: 100%;
+	}
+	.typeSpan__grid{
+		grid-template-columns: 0fr 1fr 1fr;
+	}
+	
 }

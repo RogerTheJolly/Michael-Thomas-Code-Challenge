@@ -13,6 +13,7 @@
 	</head>
 
 	<body>
+		<!--Title bar containing control buttons-->
 		<div class = 'resultsTitle'>
 			<img class = 'logo' src = 'images/Logo.png'>
 			<h2>Travel Insurance</h2>
@@ -26,6 +27,7 @@
 			<img class = 'icon' src = 'images/sliders.png' alt = "Filter" title = "Filter results" onClick = 'toggleFilter()'>
 			<img class = 'icon' src = 'images/grid.png' alt = "Grid" title = "Toggle grid view" onClick = 'toggleGrid()'>
 		</div>
+		<!--Grid container for planBoxes, as well as a hard coded "template" planBox that will be copied to make additional planBoxes-->
 		<div class = 'planGrid'>
 			<div class = 'planBox' onclick = 'selectCompare(this)' selected = 'false'>
 				<h2 class = 'planBox__title'></h2>
@@ -39,27 +41,32 @@
 			</div>
 		</div>
 		
+		<!--Comparison modal with grid container and close button-->
 		<div class = 'compareModal__background'>
 			<div class = 'compareModal'>
 				<div class = 'compareModal__grid'></div>
 				<div class = 'mainBox__ResetButton' onClick = 'closeCompare()'>Close Compare</div>
 			</div>
 		</div>
+		<!--Filter modal with required filter options, 'apply' button, and close button-->
 		<div class = 'filterModal__background' view = 'hidden'>
 			<div class = 'filterModal'>
 				<div class = 'filterModal__options'>
+				
 					<span class = 'typeSpan__title'>Choose a policy max</span>
 					<input class = 'item__box' id = 'maxPrice' type = 'text' name = 'maxPrice' placeholder = 'Policy max'>
+					
+					
 					<span class = 'typeSpan__title'>Choose Types</span>
 					<div class = 'typeSpan__grid'>
-					<div></div>
+						<div></div> <!--Empty divs like this are used to add an extra column to the CSS grids when needed-->
 						<span class = 'typeSpan'>Comprehensive</span>
-							<input class = 'item__checkBox' id = 'Comprehensive' type = 'checkbox' name = 'Comprehensive' checked>
+						<input class = 'item__checkBox' id = 'Comprehensive' type = 'checkbox' name = 'Comprehensive' checked>
 						<div></div>
 						<span class = 'typeSpan'>Fixed</span>
-							<input class = 'item__checkBox' id = 'Fixed' type = 'checkbox' name = 'Fixed' checked>
-						
+						<input class = 'item__checkBox' id = 'Fixed' type = 'checkbox' name = 'Fixed' checked>
 					</div>
+					
 					<span class = 'typeSpan__title'>Choose Sections</span>
 					<div class = 'typeSpan__grid'>
 						<div></div>
@@ -74,7 +81,6 @@
 						<div></div>
 						<span class = 'typeSpan'>J1 Medical</span>
 						<input class = 'item__checkBox' id = 'J1' type = 'checkbox' name = 'J1' checked>
-						
 					</div>
 					
 					<span class = 'typeSpan__title'>Best Seller</span>
@@ -90,6 +96,7 @@
 		</div>
 	</body>
 	
+	<!--Once the page is loaded, kick off the required scripts for this page beginning with the AJAX GET request-->
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			resultsPage();

@@ -1,4 +1,3 @@
-console.log("quotes.js running");
 const express = require('express');
 const router = express.Router();
 const mockData = require('../public/mockData/mockData');

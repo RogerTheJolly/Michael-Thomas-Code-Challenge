@@ -6,7 +6,6 @@
 		<link href="stylesheets/style.css" rel="stylesheet">
 		
 		<script src="scripts.js"></script>
-		<!--<script type="module" src="routes/quotes.js"></script>-->
 		
 		<!--Used only for AJAX-->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -14,10 +13,12 @@
 
 	<body>
 		<div class = 'mainBox'>
+			<!--Title bar-->
 			<div class = 'mainBox__title'>
 				<img class = 'logo' src = 'images/Logo.png'>
 				<h2>Travel Insurance</h2>
 			</div>
+			<!--Main content container with grid and required input fields-->
 			<div class = 'mainBox__content'>
 				<div class = 'mainBox__content__grid'>
 					<div class = 'item'>
@@ -30,23 +31,27 @@
 							<option value="500">$500,000</option>
 						</select>
 					</div>
+					
 					<div class = 'item'>
 						<span>Age</span>
-						<input class = 'item__box' id = 'age' type = 'text' name = 'age' placeholder = 'Choose your age'>
+						<input class = 'item__box' id = 'age' type = 'text' name = 'age' placeholder = 'Choose your age or DOB'>
 					</div>
+					
 					<div class = 'item'>
 						<span class = 'item__doubleSpan'>Start Date</span>
 						<span class = 'item__doubleSpan'>End Date</span>
 						<input class = 'item__double' id = 'startDate' type = 'date' name = 'startDate'>
 						<input class = 'item__double' id = 'endDate' type = 'date' name = 'endDate'>
 					</div>
+					
 					<div class = 'item'>
 						<span>Citizenship</span>
-						<input class = 'item__box' id = 'citizenship' type = 'text' name = 'Citizenship' placeholder = 'Choose your Country of Citizenship'>
+						<input class = 'item__box' id = 'citizenship' type = 'text' name = 'Citizenship' placeholder = 'Choose your Country of Citizenship' onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' onpaste='return false'>
 					</div>
+					
 					<div class = 'item'>
 						<span>Mailing State</span>
-						<input class = 'item__box' id = 'state' type = 'text' name = 'State' placeholder = 'Choose State'>
+						<input class = 'item__box' id = 'state' type = 'text' name = 'State' placeholder = 'Choose State' onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' onpaste='return false'>
 					</div>
 				</div>
 				<div class = 'mainBox__GetButton' onClick = 'postAPI();'>GET QUOTES</div>
