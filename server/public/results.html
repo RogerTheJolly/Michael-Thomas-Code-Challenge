@@ -17,12 +17,13 @@
 			<img class = 'logo' src = 'images/Logo.png'>
 			<h2>Travel Insurance</h2>
 			<select class = 'sortSelect' id = 'maximum' onChange = 'sortData(this.selectedIndex);'>
-				<option value="" disabled selected>Sory by...</option>
+				<option value="" disabled selected>Sort by...</option>
 				<option value="priceLH">Price (Low-High)</option>
 				<option value="name">Name</option>
 			</select>
 			<img class = 'icon' src = 'images/compare.png' alt = "Compare" title = "Select up to four plans to compare" onClick = 'compareSelected()';>
 			<img class = 'icon' src = 'images/reset.png' alt = "Reset" title = "Reset selected plans" onClick = 'resetSelected();'>
+			<img class = 'icon' src = 'images/sliders.png' alt = "Filter" title = "Filter results" onClick = 'toggleFilter()'>
 			<img class = 'icon' src = 'images/grid.png' alt = "Grid" title = "Toggle grid view" onClick = 'toggleGrid()'>
 		</div>
 		<div class = 'planGrid'>
@@ -41,7 +42,50 @@
 		<div class = 'compareModal__background'>
 			<div class = 'compareModal'>
 				<div class = 'compareModal__grid'></div>
-				<div class = 'mainBox__ResetButton' onClick = 'resetCompare()'>Close Compare</div>
+				<div class = 'mainBox__ResetButton' onClick = 'closeCompare()'>Close Compare</div>
+			</div>
+		</div>
+		<div class = 'filterModal__background' view = 'hidden'>
+			<div class = 'filterModal'>
+				<div class = 'filterModal__options'>
+					<span class = 'typeSpan__title'>Choose a policy max</span>
+					<input class = 'item__box' id = 'maxPrice' type = 'text' name = 'maxPrice' placeholder = 'Policy max'>
+					<span class = 'typeSpan__title'>Choose Types</span>
+					<div class = 'typeSpan__grid'>
+					<div></div>
+						<span class = 'typeSpan'>Comprehensive</span>
+							<input class = 'item__checkBox' id = 'Comprehensive' type = 'checkbox' name = 'Comprehensive' checked>
+						<div></div>
+						<span class = 'typeSpan'>Fixed</span>
+							<input class = 'item__checkBox' id = 'Fixed' type = 'checkbox' name = 'Fixed' checked>
+						
+					</div>
+					<span class = 'typeSpan__title'>Choose Sections</span>
+					<div class = 'typeSpan__grid'>
+						<div></div>
+						<span class = 'typeSpan'>Travel Medical</span>
+						<input class = 'item__checkBox' id = 'Travel' type = 'checkbox' name = 'Travel' checked>
+						<div></div>
+						<span class = 'typeSpan'>International Travel Medical</span>
+						<input class = 'item__checkBox' id = 'International' type = 'checkbox' name = 'International' checked>
+						<div></div>
+						<span class = 'typeSpan'>Student Medical</span>
+						<input class = 'item__checkBox' id = 'Student' type = 'checkbox' name = 'Student' checked>
+						<div></div>
+						<span class = 'typeSpan'>J1 Medical</span>
+						<input class = 'item__checkBox' id = 'J1' type = 'checkbox' name = 'J1' checked>
+						
+					</div>
+					
+					<span class = 'typeSpan__title'>Best Seller</span>
+					<select class = 'sortSelect' id = 'bestSeller'>
+						<option value="yes">Yes</option>
+						<option value="no">No</option>
+						<option value="either" selected>Either</option>
+					</select>
+				</div>
+				<div class = 'filterModal__apply' onClick = 'applyFilter(); toggleFilter();'>Apply Filter</div>
+				<div class = 'filterModal__close' onClick = 'toggleFilter();'>Close Filter</div>
 			</div>
 		</div>
 	</body>

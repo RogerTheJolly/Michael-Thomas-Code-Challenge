@@ -133,6 +133,112 @@ function sortData(index)
 	//Run this function again to repopulate planBoxes
 	createPlans(data);
 }
+
+function applyFilter()
+{
+	data = globalData;
+	var planBoxes = document.getElementsByClassName('planBox');
+	
+	//Delete all existing planBox elements (except one, to be used as a template for copying)
+	if(planBoxes.length > 1)
+	{
+		//Length needs to be saved in a variable becuase planBoxes[] will be changing as planBoxes are removed
+		var length = planBoxes.length;
+		
+		for(i = length; i > 1; i--)
+		{
+			planBoxes[i-1].parentNode.removeChild(planBoxes[i-1]);
+		}
+	}
+
+	//Get the filter options
+	var maxPrice = document.getElementById('maxPrice').value;
+	if (maxPrice == '')
+		maxPrice = 999999999;
+	
+	var comprehensive = document.getElementById('Comprehensive').checked;
+	var fixed = document.getElementById('Fixed').checked;
+	
+	var bestSeller = document.getElementById('bestSeller').selectedIndex;
+	
+	var travelMed = document.getElementById('Travel').checked;
+	var intTravelMed = document.getElementById('International').checked;
+	var studentMed = document.getElementById('Student').checked;
+	var j1Med = document.getElementById('J1').checked;
+	
+	//Copy the planBox element depending on how many plans we have
+	for(i = 0; i < data.length; i++)
+	{
+		if(i == 0)
+		{
+			//This is the planBox that's already built in HTML to be used as a template
+			var planBox = document.getElementsByClassName('planBox')[0];
+		}
+		else
+		{
+			//Make a copy of the previous planBox
+			var planBox = planBox.cloneNode(true);
+		}
+		
+		//Skip anything that doesn't match the filters
+		if(data[i].price > maxPrice || (!comprehensive && data[i].type == "Comprehensive") || (!fixed && data[i].type == "Fixed") || (bestSeller == 0 && !data[i].bestSellers) || (bestSeller == 1 && data[i].bestSellers)
+			 || (!travelMed && data[i].section == 'Travel Medical') || (!intTravelMed && data[i].section == 'International Travel Medical') || (!studentMed && data[i].section == 'Student Medical') || (!j1Med && data[i].section == 'J1 Medical'))
+		{
+			continue;
+		}
+		//Add values from the data onto the targeted planBox
+		planBox.childNodes[1].innerHTML = data[i].name;
+		planBox.childNodes[3].childNodes[2].innerHTML = '$' + data[i].price;
+		planBox.childNodes[3].childNodes[5].innerHTML = data[i].description;
+		planBox.childNodes[3].childNodes[8].innerHTML = data[i].type;
+		planBox.childNodes[3].childNodes[11].innerHTML = data[i].section;
+		
+		//If the description is 30 characters or longer, set line-height to half of original value to keep vertical allignment correct
+		//This is because >= 30 characters will overflow onto the next line
+		if(data[i].description.length >= 30)
+		{
+			planBox.childNodes[3].childNodes[5].style.lineHeight = '27.5px';
+		}
+		else
+		{
+			planBox.childNodes[3].childNodes[5].style.lineHeight = '54px';
+		}
+		
+		//Similar to above. If name is too long, decrease font size
+		if(data[i].name.length >= 27)
+		{
+			planBox.childNodes[1].style.fontSize = '15px';
+		}
+		else
+		{
+			planBox.childNodes[1].style.fontSize = '20px';
+		}
+		
+		//Check if this plan is a best seller. This is seperate from the other values because it's a boolean value and the element is not a part of the grid element
+		if(data[i].bestSellers)
+		{	
+			planBox.childNodes[5].innerHTML = 'Best Seller!';
+		}
+		else
+		{
+			planBox.childNodes[5].innerHTML = '';
+		}
+		
+		//Add the planBox to the body element
+		document.getElementsByClassName("planGrid")[0].appendChild(planBox);
+	}
+	
+	//The following checks are for the first planBox in the set, as that one does not get deleted by default because it's used to make copies
+	
+	//Delete any planBoxes that don't match the filter
+	if(parseInt(planBoxes[0].childNodes[3].childNodes[2].innerHTML.toString().replace('$','')) > maxPrice || (!comprehensive && planBoxes[0].childNodes[3].childNodes[8].innerHTML == "Comprehensive")
+		 || (!fixed && planBoxes[0].childNodes[3].childNodes[8].innerHTML == "Fixed") || (bestSeller == 0 && planBoxes[0].childNodes[5].innerHTML == '') || (bestSeller == 1 && planBoxes[0].childNodes[5].innerHTML != '')
+		 || (!travelMed && planBoxes[0].childNodes[3].childNodes[11].innerHTML == 'Travel Medical') || (!intTravelMed && planBoxes[0].childNodes[3].childNodes[11].innerHTML == 'International Travel Medical')
+		 || (!studentMed && planBoxes[0].childNodes[3].childNodes[11].innerHTML == 'Student Medical') || (!j1Med && planBoxes[0].childNodes[3].childNodes[11].innerHTML == 'J1 Medical'))
+	{
+		planBoxes[0].parentNode.removeChild(planBoxes[0]);
+	}
+}
 var selectedCount = 0;
 
 //Function to select up to 4 plans for comparison
@@ -192,7 +298,7 @@ function compareSelected()
 }
 
 //Reset the comparison. Hide modal, delete modal children
-function resetCompare(){
+function closeCompare(){
 	var compareModal = document.getElementsByClassName("compareModal__grid")[0];
 	var modalParent = document.getElementsByClassName('compareModal__background')[0];
 	
@@ -230,6 +336,22 @@ function toggleGrid()
 	else
 	{
 		grid.style.display = 'grid';
+	}
+}
+//Open the filter modal
+function toggleFilter()
+{
+	var modal =document.getElementsByClassName('filterModal__background')[0];
+	
+	if(modal.getAttribute('view') == 'hidden')
+	{
+		modal.style.display = 'block';
+		modal.setAttribute('view', 'shown');
+	}
+	else
+	{
+		modal.style.display = 'none';
+		modal.setAttribute('view', 'hidden');
 	}
 }
 function postAPI()
